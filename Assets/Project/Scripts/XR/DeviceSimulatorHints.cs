@@ -1,18 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
+#if UNITY_EDITOR
 using UnityEngine;
+using UnityEditor;
+using UnityEngine.InputSystem.Users;
 
-public class DeviceSimulatorHints : MonoBehaviour
+[InitializeOnLoad]
+public static class DeviceSimulatorHints
 {
-    // Start is called before the first frame update
-    void Start()
+    static DeviceSimulatorHints()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        EditorApplication.playModeStateChanged += s =>
+        {
+            if (s == PlayModeStateChange.EnteredPlayMode)
+            {
+                if (InputUser.all.Count == 0)
+                    Debug.Log("[DeviceSimulator] Чтобы выбрать контроллер, нажмите T или Y, затем WASD/мышь для перемещения.");
+            }
+        };
     }
 }
+#endif

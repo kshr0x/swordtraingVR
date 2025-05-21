@@ -1,18 +1,15 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class ServiceLocator : MonoBehaviour
+public static class ServiceLocator
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private static readonly Dictionary<Type, object> _services = new();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public static void Register<T>(T instance) where T : class
+        => _services[typeof(T)] = instance;
+
+    public static T Get<T>() where T : class
+        => _services.TryGetValue(typeof(T), out var service) ? service as T : null;
+
+    public static void Clear() => _services.Clear();
 }

@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class WeaponSelector : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private WeaponConfig[] arsenal;
+    [SerializeField] private TextMeshProUGUI label;
+    private int _idx;
+    public System.Action<WeaponConfig> OnWeaponChosen;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void Next() { _idx = (_idx + 1) % arsenal.Length; Refresh(); }
+    public void Prev() { _idx = (_idx - 1 + arsenal.Length) % arsenal.Length; Refresh(); }
+    public void Confirm() => OnWeaponChosen?.Invoke(arsenal[_idx]);
+
+    private void Refresh() => label.text = arsenal[_idx].displayNameRu;
 }

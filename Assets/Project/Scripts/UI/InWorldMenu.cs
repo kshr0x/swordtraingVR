@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InWorldMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private ModeSelector modeSel;
+    [SerializeField] private WeaponSelector weaponSel;
+    private UIModule _ui;
+
+    public void Initialize(UIModule ui)
     {
-        
+        _ui = ui;
+        modeSel.OnScenarioChosen += s => _ui.RaiseModeSelected(s);
+        weaponSel.OnWeaponChosen += w => _ui.RaiseWeaponSelected(w);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void Toggle(bool state) => gameObject.SetActive(state);
 }
